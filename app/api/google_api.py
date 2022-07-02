@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import List
 
 from aiogoogle import Aiogoogle
 from fastapi import APIRouter, Depends
@@ -17,7 +17,7 @@ router = APIRouter()
 
 @router.get(
     '/',
-    response_model=List[Dict[str, str, int]],
+    response_model=List[dict[str, str, int]],
     dependencies=[Depends(current_superuser)],
 )
 async def get_report(
