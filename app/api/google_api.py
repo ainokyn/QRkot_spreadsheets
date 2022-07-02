@@ -1,3 +1,5 @@
+from typing import List
+
 from aiogoogle import Aiogoogle
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,7 +17,7 @@ router = APIRouter()
 
 @router.get(
     '/',
-    response_model=list[dict[str, str, int]],
+    response_model=List[dict[str, str, int]],
     dependencies=[Depends(current_superuser)],
 )
 async def get_report(

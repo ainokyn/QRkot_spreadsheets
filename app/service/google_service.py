@@ -61,7 +61,7 @@ async def spreadsheets_update_value(
     table_values = [
         ['Отчет от', now_date_time],
         ['Топ проектов по скорости закрытия'],
-        ['Название', 'Описание', 'Время сбора']
+        ['Название', 'Описание', 'Время сбора в днях']
     ]
     for res in reservations:
         new_row = [str(res['name']), str(res['description']), int(res['delta'])]

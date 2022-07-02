@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import func, select
@@ -77,12 +77,10 @@ class CRUDCharityProject(CRUDBase):
     async def get_projects_by_completion_rate(
             self,
             session: AsyncSession,
-    ) -> list[dict[str, str, int]]:
-        """
-        Функция получает данные, которые соответсвуют условию задания.
-        """
+    ) -> List[dict[str, str, int]]:
+        """Функция получает данные которые соответсвуют условию задания."""
         projects = await session.execute(
-            select([CharityProject.name, CharityProject.description, (func.julianday(CharityProject.close_date) - func.julianday(CharityProject.create_date)).label("delta")]).where(CharityProject.fully_invested == True).order_by('delta'))# noqa
+            select([CharityProject.name, CharityProject.description, func.round((func.julianday(CharityProject.close_date) - func.julianday(CharityProject.create_date))).label("delta")]).where(CharityProject.fully_invested == True).order_by('delta'))# noqa
         projects = projects.all()
         return projects
 
