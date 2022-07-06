@@ -80,7 +80,15 @@ class CRUDCharityProject(CRUDBase):
     ) -> List[Dict[str, str]]:
         """Функция получает данные которые соответсвуют условию задания."""
         projects = await session.execute(
-            select([CharityProject.name, CharityProject.description, func.round((func.julianday(CharityProject.close_date) - func.julianday(CharityProject.create_date))).label("delta")]).where(CharityProject.fully_invested == True).order_by('delta'))# noqa
+            select(
+                [CharityProject.name,
+                 CharityProject.description,
+                 func.round(
+                  (func.julianday(CharityProject.close_date) - func.julianday(
+                      CharityProject.create_date))).label('delta')
+                 ])
+            .where(CharityProject.fully_invested == True)# noqa
+            .order_by('delta'))
         projects = projects.all()
         return projects
 

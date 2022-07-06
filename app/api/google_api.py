@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import List
 
 from aiogoogle import Aiogoogle
 from fastapi import APIRouter, Depends
@@ -8,6 +8,7 @@ from app.core.db import get_async_session
 from app.core.google_client import get_service
 from app.core.user import current_superuser
 from app.crud.charity_project import charityproject_crud
+from app.schemas.google import Google
 from app.service.google_service import (set_user_permissions,
                                         spreadsheets_create,
                                         spreadsheets_update_value)
@@ -17,7 +18,7 @@ router = APIRouter()
 
 @router.get(
     '/',
-    response_model=List[Dict[str, str]],
+    response_model=List[Google],
     dependencies=[Depends(current_superuser)],
 )
 async def get_report(
